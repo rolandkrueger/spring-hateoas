@@ -70,7 +70,7 @@ public class WebFluxEmployeeController {
 		EMPLOYEES.put(1, new Employee("Bilbo Baggins", "burglar"));
 	}
 
-	@GetMapping("/employees")
+	@GetMapping(value = "/employees", produces = {HAL_JSON_VALUE, HAL_FORMS_JSON_VALUE, COLLECTION_JSON_VALUE, UBER_JSON_VALUE} )
 	public Mono<CollectionModel<EntityModel<Employee>>> all() {
 
 		WebFluxEmployeeController controller = methodOn(WebFluxEmployeeController.class);
@@ -85,7 +85,7 @@ public class WebFluxEmployeeController {
 						.map(selfLink -> new CollectionModel<>(resources, selfLink)));
 	}
 
-	@GetMapping("/employees/search")
+	@GetMapping(value = "/employees/search", produces = {HAL_JSON_VALUE, HAL_FORMS_JSON_VALUE, COLLECTION_JSON_VALUE, UBER_JSON_VALUE} )
 	public Mono<CollectionModel<EntityModel<Employee>>> search( //
 			@RequestParam Optional<String> name, //
 			@RequestParam Optional<String> role) {
@@ -112,7 +112,7 @@ public class WebFluxEmployeeController {
 						.map(selfLink -> new CollectionModel<>(resources, selfLink)));
 	}
 
-	@GetMapping("/employees/{id}")
+	@GetMapping(value = "/employees/{id}", produces = {HAL_JSON_VALUE, HAL_FORMS_JSON_VALUE, COLLECTION_JSON_VALUE, UBER_JSON_VALUE} )
 	public Mono<EntityModel<Employee>> findOne(@PathVariable Integer id) {
 
 		WebFluxEmployeeController controller = methodOn(WebFluxEmployeeController.class);
@@ -130,7 +130,7 @@ public class WebFluxEmployeeController {
 				.map(links -> new EntityModel<>(EMPLOYEES.get(id), links));
 	}
 
-	@PostMapping("/employees")
+	@PostMapping(value = "/employees", consumes = {HAL_JSON_VALUE, HAL_FORMS_JSON_VALUE, COLLECTION_JSON_VALUE, UBER_JSON_VALUE})
 	public Mono<ResponseEntity<?>> newEmployee(@RequestBody Mono<EntityModel<Employee>> employee) {
 
 		return employee //
@@ -146,7 +146,7 @@ public class WebFluxEmployeeController {
 						.build());
 	}
 
-	@PutMapping("/employees/{id}")
+	@PutMapping(value = "/employees/{id}", consumes = {HAL_JSON_VALUE, HAL_FORMS_JSON_VALUE, COLLECTION_JSON_VALUE, UBER_JSON_VALUE})
 	public Mono<ResponseEntity<?>> updateEmployee(@RequestBody Mono<EntityModel<Employee>> employee,
 			@PathVariable Integer id) {
 
@@ -158,7 +158,7 @@ public class WebFluxEmployeeController {
 				.location(findOne.getRequiredLink(IanaLinkRelations.SELF).toUri()).build());
 	}
 
-	@PatchMapping("/employees/{id}")
+	@PatchMapping(value = "/employees/{id}", consumes = {HAL_JSON_VALUE, HAL_FORMS_JSON_VALUE, COLLECTION_JSON_VALUE, UBER_JSON_VALUE} )
 	public Mono<ResponseEntity<?>> partiallyUpdateEmployee( //
 			@RequestBody Mono<EntityModel<Employee>> employee, @PathVariable Integer id) {
 
